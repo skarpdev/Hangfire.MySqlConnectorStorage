@@ -1,17 +1,28 @@
 # Hangfire MySql Storage Implementation
-[![Latest version](https://img.shields.io/nuget/v/Hangfire.MySqlStorage.svg)](https://www.nuget.org/packages/Hangfire.MySqlStorage/) 
+[![Latest version](https://img.shields.io/nuget/v/Hangfire.MySqlConnectorStorage.svg)](https://www.nuget.org/packages/Hangfire.MySqlConnectorStorage/) 
 
 MySql storage implementation of [Hangfire](http://hangfire.io/) - fire-and-forget, delayed and recurring tasks runner for .NET. Scalable and reliable background job runner. Supports multiple servers, CPU and I/O intensive, long-running and short-running jobs.
+
+This repo is a fork of: [Hangfire.MySqlStorage](https://github.com/arnoldasgudas/Hangfire.MySqlStorage) so all credits go to `arnoldasgudas` for all the initial footwork.
+This connector is different from the original by:
+
+- using the true async `MySqlConnector` package 
+
+*Why?*
+
+If you are using [Pomelo EntityFrameworkCore Mysql](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql) you will get the `MySqlConnector` assembly, which is a drop in replacement for `MySQL.Data` - having both assemblies in a project kills it, as there are now conflicting namespaces in two different assemblies.
+We made this fork to solve the problem, and we will pull in changes regularly from `arnoldasgudas` repository.
 
 **Some features of MySql storage implementation is under development!**
 
 ## Installation
+
 Install MySQL
 
-Run the following command in the NuGet Package Manager console to install Hangfire.MySqlStorage:
+Run the following command in the NuGet Package Manager console to install Hangfire.MySqlConnectorStorage:
 
 ```
-Install-Package Hangfire.MySqlStorage
+Install-Package Hangfire.MySqlConnectorStorage
 ```
 
 ## Usage
@@ -61,18 +72,19 @@ app.UseHangfireServer(
 More info: http://hangfire.io/features.html#concurrency-level-control
 
 ## Dashboard
+
 Hangfire provides a dashboard
 ![Dashboard](https://camo.githubusercontent.com/f263ab4060a09e4375cc4197fb5bfe2afcacfc20/687474703a2f2f68616e67666972652e696f2f696d672f75692f64617368626f6172642d736d2e706e67)
 More info: [Hangfire Overview](http://hangfire.io/overview.html#integrated-monitoring-ui)
 
 ## Build
+
 Please use Visual Studio or any other tool of your choice to build the solution
 
 ## Test
+
 In order to run unit tests and integrational tests set the following variables in you system environment variables (restart of Visual Studio is required):
 
 `Hangfire_SqlServer_ConnectionStringTemplate` (default: `server=127.0.0.1;uid=root;pwd=root;database={0};Allow User Variables=True`)
 
 `Hangfire_SqlServer_DatabaseName` (default: `Hangfire.MySql.Tests`)
-
-
